@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+/* import core styles */
+@import url(/lib/yaml/core/base.css);
+
+/* import screen layout */
+@import url(/lib/yaml/navigation/nav_shinybuttons.css);
+@import url(screen/basemod.css);
+@import url(screen/basemod_2col_advanced.css);
+@import url(screen/content.css);
+
+/* import print layout */
+@import url(/lib/yaml/print/print_100_draft.css);
