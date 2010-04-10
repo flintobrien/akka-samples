@@ -2,6 +2,9 @@ import sbt._
 
 class Project(info: ProjectInfo) extends DefaultWebProject(info) {
 
+	override def jettyWebappPath  = webappPath
+	override def scanDirectories  = Nil
+
 	override def repositories = Set(
 		"jBoss" at "http://repository.jboss.org/maven2",
 		"Multiverse Releases" at "http://multiverse.googlecode.com/svn/maven-repository/releases/",
