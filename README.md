@@ -1,12 +1,30 @@
 # Akka Samples
 
-This project contains various samples for the [akka](http://akkasource.org) framework.  It''s based on my akka-template-rest project and tries to follow the latest releases of akka (which is a fairly moving target).  Akka has it''s own samples, so the code here may or may not be the recommended solution.  
+This project contains various samples for working with the [akka](http://akkasource.org) framework.  If you just want a staring point for playing with Akka in an SBT project then look at my [akka-template-rest](http://github.com/efleming969/akka-template-rest) project
 
-Akka is an integration of many java/scala techologies, so many of my samples will be non-akka specific.
+Akka is an integration of many techologies, so some examples are not specific to akka.
 
 ## Getting started
 1. cd akka-samples
 2. ./sbt (unix-based) or sbt (windows)
-3. update
+3. update (this could take awhile)
 4. jetty-run
-5. http://localhost:8080/
+5. http://localhost:8080/index.html
+
+## Changelog
+
+2010-04-07
+
+* BasicJsonRestService
+
+A sample of using Akka''s built-in serialization, to implement a simple json service for users
+
+* NonActorService
+
+Just uses Akka''s serialization without the need for an actor. Many use-case probably don''t need Actor so proving that Akka''s Servlet allow for standard Jersey services to be created
+
+2010-04-10
+
+* BasicJsonRestService
+
+Cleaned up the service and added a basic single-page javascript application to interact with the service
