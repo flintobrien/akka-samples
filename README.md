@@ -5,6 +5,7 @@ This project contains various samples for working with the [akka](http://akkasou
 Akka is an integration of many techologies, so some examples are not specific to akka.
 
 ## Getting started
+0. Need to build Akka 0.10 from source and publish to local repository.
 1. cd akka-samples
 2. ./sbt (unix-based) or sbt (windows)
 3. update (this could take awhile)
