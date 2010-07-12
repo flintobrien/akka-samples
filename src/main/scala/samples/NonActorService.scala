@@ -8,17 +8,17 @@ import collection.mutable.HashMap
 @Path("/nonactor")
 class NonActorService {
 
-	val message = Map("message"->"hello, world")
+  val message = Map("message"->"hello, world")
 
-	@GET 
-	@Produces(Array(TEXT_HTML))
-	def asHTML = <h1>{ message("message") }</h1>
+  @GET
+  @Produces(Array(TEXT_HTML))
+  def asHTML = <h1>{ message("message") }</h1>
 
-	@GET
-	@Produces(Array(APPLICATION_JSON))
-	def asJSON = Serializer.ScalaJSON.out(message)
+  @GET
+  @Produces(Array(APPLICATION_JSON))
+  def asJSON = Serializer.ScalaJSON.toBinary(message)
 
-	@GET
-	@Produces(Array(APPLICATION_XML))
-	def asXML = <message>{ message("message") }</message>
+  @GET
+  @Produces(Array(APPLICATION_XML))
+  def asXML = <message>{ message("message") }</message>
 }

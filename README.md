@@ -13,6 +13,11 @@ Akka is an integration of many techologies, so some examples are not specific to
 
 ## Changelog
 
+2010-07-11
+
+* Updated project files for Scala-2.8.0.RC3 and Akka 0.10
+* Fixed CRLF in src/main/webapp directory.
+
 2010-04-07
 
 * BasicJsonRestService
