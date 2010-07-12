@@ -17,10 +17,12 @@ case class User(id:String, name:String) {
 
 object Commands {
 
-  case class GetUserById(id:String)
-  case object GetUserList
-  case class CreateNewUser(user:Array[Byte])
-  case class UpdateUser(id:String, user:Array[Byte])
+  trait Command
+
+  case class GetUserById(id:String) extends Command
+  case object GetUserList extends Command
+  case class CreateNewUser(user:Array[Byte]) extends Command
+  case class UpdateUser(id:String, user:Array[Byte]) extends Command
 }
 
 class UserService extends Actor {
@@ -56,50 +58,40 @@ class UserService extends Actor {
 class BasicJsonRestService {
   import Commands._
 
+  private def sendReply( command: Command): Option[Any] =
+    for{a <- actorsFor(classOf[UserService]).headOption
+        r <- (a !! command)} yield r
+
   @GET
   @Produces(Array(APPLICATION_JSON))
-  def get = {
-    val result = for{a <- actorsFor(classOf[UserService]).headOption
-                     r <- (a !! GetUserList)} yield r
-    result match {
-      case Some(data) => Response.ok(data).build
-      case None => Response.noContent.build
-    }
+  def get = sendReply( GetUserList) match {
+    case Some(data) => Response.ok(data).build
+    case None => Response.noContent.build
   }
 
 
   @PUT
   @Consumes(Array(APPLICATION_JSON))
-  def post(userBytes:Array[Byte]) = {
-    val result = for{a <- actorsFor(classOf[UserService]).headOption
-                     r <- (a !! CreateNewUser(userBytes))} yield r
-    result match {
+  def post(userBytes:Array[Byte]) =
+    sendReply( CreateNewUser(userBytes)) match {
       case Some(id) => Response.created(new URI("/api/users/"+id)).build
       case None => Response.notModified.build
     }
-  }
 
   @GET @Path("/{id}")
   @Produces(Array(APPLICATION_JSON))
-  def get(@PathParam("id") id:String) = {
-    val result = for{a <- actorsFor(classOf[UserService]).headOption
-                     r <- (a !! GetUserById(id))} yield r
-    result match {
+  def get(@PathParam("id") id:String) =
+    sendReply( GetUserById(id)) match {
       case Some(data) => Response.ok(data).build
       case None => Response.noContent.build
     }
-  }
 
   @PUT @Path("/{id}")
   @Consumes(Array(APPLICATION_JSON))
-  def put(@PathParam("id") id:String, userBytes:Array[Byte]) = {
-    val result = for{a <- actorsFor(classOf[UserService]).headOption
-                     r <- (a !! UpdateUser(id, userBytes))} yield r
-
-   if(result.isDefined)
-     Response.ok.build
-   else
-     Response.notModified.build
-  }
+  def put(@PathParam("id") id:String, userBytes:Array[Byte]) =
+    if( sendReply( UpdateUser(id, userBytes)).isDefined)
+      Response.ok.build
+    else
+      Response.notModified.build
 
 }
